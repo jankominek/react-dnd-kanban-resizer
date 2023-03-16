@@ -5,6 +5,7 @@ export const TaskKanbanBoxWrapper = styled.div`
     background: white;
     border-radius: .5rem;
     display: flex;
+    overflow-y: auto;
     box-shadow: 0px 0px 30px -16px rgba(66, 68, 90, 1);
     margin: 1rem 0rem 1rem 1rem;
     flex-direction: column;
