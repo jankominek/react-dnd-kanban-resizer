@@ -4,8 +4,9 @@ import { TaskWrapper } from "./Task.styled";
 
 export const Task = (props:any) => {
 
+    console.log(props.task + " with id: " + props.task)
     return(
-        <Draggable draggableId="di" index={1}>
+        <Draggable draggableId={props.task} index={props.index} key={props.task}>
             {provided => (
                 <TaskWrapper ref={provided.innerRef}
                 {...provided.draggableProps}
