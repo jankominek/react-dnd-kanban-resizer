@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TaskKanbanBox } from './components/TaskKanbanBox/TaskKanbanBox';
-import { DragDropContext, DropResult, DraggableLocation, DroppableId, Droppable, DraggableId } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult, DraggableLocation, DraggableId } from 'react-beautiful-dnd';
 import { AddButton, AppContent, AppWrapper, TableWrapper, TaskAddWrapper, TaskInput } from './App.styled';
 import _ from 'lodash';
 
@@ -122,6 +122,7 @@ function App() {
           </TaskAddWrapper>
           <TableWrapper>
           {Object.values(kanban).map( k => (
+            // eslint-disable-next-line react/jsx-key
             <TaskKanbanBox column={k}/>
           ))}
         </TableWrapper>
