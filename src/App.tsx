@@ -3,16 +3,8 @@ import { TaskKanbanBox } from './components/TaskKanbanBox/TaskKanbanBox';
 import { DragDropContext, DropResult, DraggableLocation, DraggableId } from 'react-beautiful-dnd';
 import { AddButton, AppContent, AppWrapper, TableWrapper, TaskAddWrapper, TaskInput } from './App.styled';
 import _ from 'lodash';
-
-interface IInitialKanbanData {
-  [key: string] : IKanbanBoxProps;
-}
-
-interface IKanbanBoxProps {
-  id: string;
-  name: string;
-  tasks: string[];
-}
+import { AddColumnSpaceComponent } from './components/AddColumnSpace/AddColumnSpace';
+import { IInitialKanbanData, IKanbanBoxProps } from './App.interfaces';
 
 const initialData: IInitialKanbanData = {
   backlog: {
@@ -30,7 +22,8 @@ function App() {
 
   const [kanban, setKanban] = useState(initialData);
   const [taskName, setTaskName] = useState<string>("");
-  const findAndReplaceTask = (source: DraggableLocation, destination: DraggableLocation, draggableId: DraggableId ) => {
+  const [temporaryKanbanCol, setTemporaryKanbanCol] = useState<IKanbanBoxProps | null>();
+  const findAndReplaceTask = (source: DraggableLocation, destination: DraggableLocation) => {
     const droppableSourceId: string = source.droppableId;
     const droppableDestinationId: string = destination.droppableId;
     const taskName: string = kanban[droppableSourceId as keyof IInitialKanbanData]?.tasks?.at(source.index) || "";
@@ -40,12 +33,11 @@ function App() {
     clonedKanban[droppableSourceId].tasks = updatedArrayFromSource;
 
     clonedKanban[droppableDestinationId].tasks.splice(destination.index, 0, taskName);
-    // clonedKanban[droppableDestinationId].tasks = updatedArrayFromDestination;
     
     setKanban(clonedKanban);
   }
 
-  const replaceInTheSameDestination = (source: DraggableLocation, destination: DraggableLocation, draggableId: DraggableId) => {
+  const replaceInTheSameDestination = (source: DraggableLocation, destination: DraggableLocation) => {
     if(_.isEqual(source.index, destination.index)){
       return;
     }
@@ -62,17 +54,17 @@ function App() {
     setKanban(clonedKanban);
   }
 
-  const onDragEnd = ({source, destination, draggableId}: DropResult) => {
+  const onDragEnd = ({source, destination}: DropResult) => {
     if (source === undefined || destination === null) {
       return;
     }
 
     if(source.droppableId === destination?.droppableId){
-        replaceInTheSameDestination(source, destination, draggableId);
+        replaceInTheSameDestination(source, destination);
     }
 
     if(source && destination && source.droppableId !== destination.droppableId){
-      findAndReplaceTask(source, destination, draggableId);
+      findAndReplaceTask(source, destination);
     }
 
 
@@ -110,6 +102,28 @@ function App() {
     setTaskName(value);
   }
 
+  const onAddColumn = () => {
+    setTemporaryKanbanCol({
+      id: "temp",
+      name: "temp",
+      tasks: []
+    })
+  }
+
+  const confirmColumnName = (name: string) => {
+    if(!!name.length){
+      const colId = name.replace(/\s/g, '');
+    setKanban({
+      ...kanban,
+      [colId] : {
+        name: name,
+        id: colId,
+        tasks: []
+      }
+    })
+    setTemporaryKanbanCol(null);
+    }
+  }
   return (
   <DragDropContext onDragEnd={onDragEnd}>
     <AppWrapper>
@@ -125,6 +139,8 @@ function App() {
             // eslint-disable-next-line react/jsx-key
             <TaskKanbanBox column={k}/>
           ))}
+          {temporaryKanbanCol && <TaskKanbanBox column={temporaryKanbanCol} isTemporary confirmColumnName={confirmColumnName}/>}
+          <AddColumnSpaceComponent onClick={onAddColumn}/>
         </TableWrapper>
 
         </AppContent>

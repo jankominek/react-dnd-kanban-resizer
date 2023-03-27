@@ -31,6 +31,27 @@ export const KanbanComponentWrapper = styled.div<{isDraggingOver: boolean}>`
 `
 
 export const DroppableWrapper = styled.div`
-    border: 1px solid red;
     height: 20rem;
+`
+
+export const InputWrapper = styled.div`
+    margin: 0 .5rem;
+    box-sizing: border-box;
+    position: relative;
+    padding: 0 .5rem;
+    align-items: center;
+    display: flex;
+    border: 2px solid #F0F0F0;
+    border-radius: 10px;
+`
+export const ColumnNameInput = styled.input`
+    width: 90%;
+    height: 2.5rem;
+    border: none;
+    display: block;
+    padding: .5rem 0rem;
+    font-size: 1.2rem;
+    &:focus{
+        outline: none;
+    }
 `

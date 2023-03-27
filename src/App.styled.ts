@@ -17,6 +17,8 @@ export const TableWrapper = styled.div`
     background: #459F96;
     display: flex;
     align-items: stretch;
+    overflow-x: auto;
+    white-space: nowrap; 
 `
 
 export const AppContent = styled.div`
