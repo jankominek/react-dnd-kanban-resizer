@@ -12,7 +12,8 @@
   },
   "scripts": {
     "build": "webpack --mode production",
-    "start": "webpack-dev-server --mode development"
+    "start": "webpack-dev-server --mode development",
+    "test": "npx playwright test && npx playwright show-report"
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",

@@ -18,8 +18,8 @@ export const TaskKanbanBox = (props: ITaskKanbanBoxProps) => {
             <KanbanBoxTitleField>
                {isTemporary && confirmColumnName && <KanbanTitle>
                 <InputWrapper>
-                    <ColumnNameInput onChange={onChangeName} value={colName}/>
-                    <BsFillCheckSquareFill style={{flexGrow: "2", color: "green", cursor: "pointer"}} onClick={ () => confirmColumnName(colName)}/>
+                    <ColumnNameInput onChange={onChangeName} value={colName} data-test="newKanbanInput"/>
+                    <BsFillCheckSquareFill data-test="svg" style={{flexGrow: "2", color: "green", cursor: "pointer"}} onClick={ () => confirmColumnName(colName)}/>
                 </InputWrapper>
                </KanbanTitle> ||  <KanbanTitle>{column.name}</KanbanTitle>}
             </KanbanBoxTitleField>
